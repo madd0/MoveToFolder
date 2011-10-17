@@ -1,0 +1,57 @@
+﻿<Window x:Class="Madd0.MoveToFolder.FolderSelectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:tk="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+        xmlns:aero="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+        xmlns:local="clr-namespace:Madd0.MoveToFolder"
+        mc:Ignorable="d" 
+        AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen"
+        ShowInTaskbar="False" PreviewKeyDown="OnPreviewKeyDown" FocusManager.IsFocusScope="True"
+        FocusManager.FocusedElement="{Binding ElementName=tb}"
+        ResizeMode="NoResize" Height="300" Width="333" Background="{x:Null}" SnapsToDevicePixels="True"
+        Loaded="Window_Loaded">
+    <Grid Margin="0 0 5 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Border BorderBrush="#E07110" BorderThickness="1 1 1 0" CornerRadius="3 3 0 0" HorizontalAlignment="Left" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0 1" EndPoint="0 0">
+                    <GradientStop Color="#FBC825" Offset="0" />
+                    <GradientStop Color="#FA9E0E" Offset="0.45" />
+                    <GradientStop Color="#FA9E0E" Offset="0.80" />
+                    <GradientStop Color="#E07110" Offset="0" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <TextBlock SnapsToDevicePixels="True" Foreground="White" Padding="5 1" FontSize="11">Move to folder</TextBlock>
+        </Border>
+        <Border Grid.Column="1" BorderBrush="#E07110" BorderThickness="0 0 0 1" />
+        <aero:SystemDropShadowChrome Grid.Row="1" Grid.ColumnSpan="2">
+            <Border BorderThickness="1 0 1 1" BorderBrush="#E07110">
+                <tk:AutoCompleteBox x:Name="tb" FontSize="14"
+                                    ItemsSource="{Binding}" BorderThickness="0"
+                                    IsTextCompletionEnabled="True" ValueMemberPath="Name"
+                                    FilterMode="Contains" MinimumPrefixLength="2">
+                    <tk:AutoCompleteBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel.Resources>
+                                    <local:PathConverter x:Key="PathConverter" />
+                                </StackPanel.Resources>
+                                <TextBlock FontSize="12" Text="{Binding FolderPath, Converter={StaticResource PathConverter}}" Padding="0 0 5 0" />
+                                <TextBlock FontSize="10" Foreground="Gray" Text="{Binding FolderPath, Converter={StaticResource PathConverter}, ConverterParameter=root, StringFormat=({0})}" VerticalAlignment="Bottom" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </tk:AutoCompleteBox.ItemTemplate>
+                </tk:AutoCompleteBox>
+            </Border>
+        </aero:SystemDropShadowChrome>
+    </Grid>
+</Window>
